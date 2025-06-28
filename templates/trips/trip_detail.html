@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2>{{ trip.title }} — {{ trip.destination }}</h2>
+  <p><strong>Dates:</strong> {{ trip.start_date }} to {{ trip.end_date }}</p>
+
+  <hr>
+
+  <h3>Your Journal Entries</h3>
+
+  {% if entries %}
+    <div class="list-group">
+      {% for entry in entries %}
+        <a href="#" class="list-group-item">
+          <h5>{{ entry.title }}</h5>
+          <small>{{ entry.date }}</small>
+          <p>{{ entry.content|truncatewords:20 }}</p>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No journal entries yet.</p>
+  {% endif %}
+
+  <a href="#" class="btn btn-primary mt-3">+ Add Journal Entry</a>
+</div>
+{% endblock %}

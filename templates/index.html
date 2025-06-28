@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- 🌍 Hero Section -->
+<section class="text-center py-5 bg-light">
+  <div class="container">
+    <h1 class="display-4">🌍 Travel Journal & Planner</h1>
+    <p class="lead">Track your adventures. Share your journeys. Inspire others.</p>
+    <a href="{% url 'login' %}" class="btn btn-success btn-lg m-2">Get Started</a>
+    <a href="#" class="btn btn-outline-primary btn-lg m-2">Browse Public Trips</a>
+  </div>
+</section>
+
+<!-- 📸 Featured Trips -->
+<section class="container my-5">
+  <h2 class="text-center mb-4">📸 Featured Trips</h2>
+  <div class="row row-cols-1 row-cols-md-4 g-4">
+    
+    <!-- Trip Card -->
+    <div class="col d-flex justify-content-center">
+      <div class="card h-100">
+        <img src="{% static 'rome.jpg' %}" class="card-img-top" alt="Rome">
+        <div class="card-body">
+          <h5 class="card-title text-center">Rome in Spring</h5>
+          <p class="card-text text-truncate-multiline text-center">Visits to the Colosseum and Vatican Museums.</p>
+            <div class="text-center">
+              <a href="#" class="btn btn-primary">
+                View Trip
+              </a>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col d-flex justify-content-center">
+      <div class="card h-100">
+        <img src="{% static 'preikestolen.jpg' %}" class="card-img-top" alt="Rome">
+        <div class="card-body">
+          <h5 class="card-title text-center">Hiking in Norway</h5>
+          <p class="card-text text-truncate-multiline text-center">Climbing Preikestolen and exploring the beautiful Norwegian landmarks.</p>
+            <div class="text-center">
+                <a href="#" class="btn btn-primary">
+                  View Trip
+                </a>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col d-flex justify-content-center">
+      <div class="card h-100">
+        <img src="{% static 'tokyo.jpg' %}" class="card-img-top" alt="Rome">
+        <div class="card-body">
+          <h5 class="card-title text-center">Tokyo Nights</h5>
+          <p class="card-text text-truncate-multiline text-center">Experiencing the vibrant nightlife and exploring bustling Shibuya.</p>
+            <div class="text-center">
+              <a href="#" class="btn btn-primary">
+                  View Trip
+                </a>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col d-flex justify-content-center">
+      <div class="card h-100">
+        <img src="{% static 'bali.jpg' %}" class="card-img-top" alt="Rome">
+        <div class="card-body">
+          <h5 class="card-title text-center">Beaches of Bali</h5>
+          <p class="card-text text-truncate-multiline text-center">Relaxing on the sandy shores and catching the stunning sunsets.</p>
+            <div class="text-center">
+                <a href="#" class="btn btn-primary">
+                  View Trip
+                </a>
+            </div>
+        </div>
+      </div>
+    </div>
+
+        
+    <!-- Add more trip cards here -->
+
+  </div>
+</section>
+
+<!-- 👣 Call to Action -->
+<section class="text-center py-5 bg-white border-top">
+  <div class="container">
+    <p class="fs-5">Join hundreds of travelers already documenting life.</p>
+      <p><a href="{% url 'register' %}">Create an Account</a> or <a href="{% url 'login' %}">Login</a> to get started.</p>
+  </div>
+</section>
+
+{% endblock %}

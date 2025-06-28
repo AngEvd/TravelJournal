@@ -1,0 +1,24 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-sm navbar-light bg-light px-4">
+    <a class="navbar-brand d-flex align-items-center gap-1" href="{% url 'index' %}">
+        <img src="{% static 'icon-travel.svg' %}" alt="Travel Icon" width="60" height="60">
+        Journilo
+    </a>
+
+    <!-- Toggler button (for mobile screens) -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+        aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Browse Public Trips</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+        </ul>
+    </div>
+</nav>
