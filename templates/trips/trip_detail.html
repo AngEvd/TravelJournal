@@ -1,27 +1,54 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
-<div class="container mt-4">
-  <h2>{{ trip.title }} — {{ trip.destination }}</h2>
-  <p><strong>Dates:</strong> {{ trip.start_date }} to {{ trip.end_date }}</p>
+<!-- 🌍 Trip Cover Hero -->
+<section class="text-center bg-light py-5">
+  <div class="container">
+    <h1 class="display-4">{{ trip.title }}</h1>
 
-  <hr>
+    {% if trip.cover_photo %}
+      <img src="{{ trip.cover_photo.url }}" alt="{{ trip.title }}"
+           class="img-fluid my-4"
+           style="max-height: 400px; object-fit: cover; width: 100%; border-radius: 8px;">
+    {% endif %}
 
-  <h3>Your Journal Entries</h3>
+    <p class="lead">{{ trip.destination }} — {{ trip.start_date }} to {{ trip.end_date }}</p>
+  </div>
+</section>
+
+<!-- 📖 Journal Entries -->
+<section class="container my-5">
+  <h2 class="text-center mb-4">📖 Journal Entries</h2>
 
   {% if entries %}
-    <div class="list-group">
+    <div class="row row-cols-1 row-cols-md-2 g-4">
       {% for entry in entries %}
-        <a href="#" class="list-group-item">
-          <h5>{{ entry.title }}</h5>
-          <small>{{ entry.date }}</small>
-          <p>{{ entry.content|truncatewords:20 }}</p>
-        </a>
+        <div class="col">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title">{{ entry.title }}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">{{ entry.date }}</h6>
+              <p class="card-text">{{ entry.content|truncatewords:25 }}</p>
+              <a href="#" class="btn btn-outline-primary mt-2">Read More</a>
+            </div>
+          </div>
+        </div>
       {% endfor %}
     </div>
   {% else %}
-    <p>No journal entries yet.</p>
+    <p class="text-center">No journal entries yet.</p>
   {% endif %}
 
-  <a href="#" class="btn btn-primary mt-3">+ Add Journal Entry</a>
-</div>
+  <div class="text-center mt-4">
+    <a href="#" class="btn btn-primary">+ Add Journal Entry</a>
+  </div>
+</section>
+
+<!-- 🔙 Back to Trips -->
+<section class="text-center py-4 bg-white border-top">
+  <div class="container">
+    <a href="#" class="btn btn-outline-secondary">← Back to Trips</a>
+  </div>
+</section>
 {% endblock %}
