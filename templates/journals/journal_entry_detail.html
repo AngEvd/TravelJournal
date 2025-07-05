@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- 📝 Journal Entry Header -->
+    <section class="text-center bg-light py-5">
+        <div class="container">
+            <h1 class="display-4">{{ journal_entry.title }}</h1>
+            <h2 class="lead">From: {{ journal_entry.trip.title }}</h2>
+
+            <p class="text-muted">{{ journal_entry.entry_date }}</p>
+        </div>
+    </section>
+
+    <!-- 🧾 Entry Content -->
+    <section class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <p class="fs-5">{{ journal_entry.content|linebreaks }}</p>
+
+                {% if journal_entry.photos.all %}
+                    <hr>
+                    <h4 class="mb-3">📷 Photos</h4>
+                    <div class="row row-cols-1 row-cols-md-4 g-4">
+                        {% for photo in journal_entry.photos.all %}
+                            <div class="col">
+                                <div class="card h-100 small-card">
+                                    <img src="{{ photo.image.url }}"
+                                         class="card-img-top"
+                                         alt="{{ photo.caption }}"
+                                         style="cursor: pointer;"
+                                         data-bs-toggle="modal"
+                                         data-bs-target="#photoModal{{ forloop.counter }}">
+
+                                    {% if photo.caption %}
+                                        <div class="card-body">
+                                            <p class="card-text text-muted">{{ photo.caption }}</p>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- 🔍 Modal for full image -->
+                            <div class="modal fade" id="photoModal{{ forloop.counter }}" tabindex="-1"
+                                 aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-xl">
+                                    <div class="modal-content border-0 bg-transparent" style="box-shadow: none;">
+                                        <div class="modal-body p-0 text-center" style="cursor: pointer;"
+                                             data-bs-dismiss="modal">
+                                            <img src="{{ photo.image.url }}" class="img-fluid rounded"
+                                                 alt="{{ photo.caption }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <div class="text-center mb-3">
+        <a href="{% url 'journal_entry_update' journal_entry.pk %}" class="btn btn-primary">✏️ Edit</a>
+    </div>
+
+    <!-- 🔙 Back to Trip -->
+    <section class="text-center py-4 bg-white border-top">
+        <div class="container">
+            <a href="{% url 'trip_detail' journal_entry.trip.id %}" class="btn btn-outline-secondary">← Back
+                to {{ journal_entry.trip.title }}</a>
+        </div>
+    </section>
+{% endblock %}

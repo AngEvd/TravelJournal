@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+
+
+{% block content %}
+    <div class="container mt-4">
+        <h2>Add Journal Entry to "{{ trip.title }}"</h2>
+        <form method="POST" class="text-start" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ entry_form|crispy }}
+
+            <!-- Photo Upload Formset -->
+            <div class="card mb-4">
+                <div class="card-header">Add Photos</div>
+                <div class="card-body">
+                    {{ photo_formset.management_form }}
+                    {% for form in photo_formset %}
+                        <div class="mb-3 border-bottom pb-2">
+                            {{ form.image.label_tag }} {{ form.image }}
+                            {{ form.caption.label_tag }} {{ form.caption }}
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success">Save Entry</button>
+            <a href="#" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+{% endblock %}

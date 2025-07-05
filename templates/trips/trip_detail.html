@@ -2,53 +2,69 @@
 {% load static %}
 
 {% block content %}
-<!-- 🌍 Trip Cover Hero -->
-<section class="text-center bg-light py-5">
-  <div class="container">
-    <h1 class="display-4">{{ trip.title }}</h1>
+    <!-- 🌍 Trip Cover Hero -->
+    <section class="text-center bg-light py-5">
+        <div class="container">
+            <h1 class="display-4">{{ trip.title }}</h1>
+            <h2 class="lead">{{ trip.description }}</h2>
 
-    {% if trip.cover_photo %}
-      <img src="{{ trip.cover_photo.url }}" alt="{{ trip.title }}"
-           class="img-fluid my-4"
-           style="max-height: 400px; object-fit: cover; width: 100%; border-radius: 8px;">
+            {% if trip.cover_photo %}
+                <!-- Cover Image Trigger -->
+                <img src="{{ trip.cover_photo.url }}" alt="{{ trip.title }}"
+                     class="img-fluid my-4"
+                     style="max-height: 400px; object-fit: cover; width: 100%; border-radius: 8px; cursor: pointer;"
+                     data-bs-toggle="modal" data-bs-target="#coverImageModal">
+
+                <!-- Modal -->
+                <div class="modal fade" id="coverImageModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-xl">
+                        <div class="modal-content border-0 bg-transparent" style="background: none; box-shadow: none;">
+                            <div class="modal-body p-0 text-center" style="cursor: pointer;" data-bs-dismiss="modal">
+                                <img src="{{ trip.cover_photo.url }}" class="img-fluid rounded" alt="{{ trip.title }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <p class="lead">{{ trip.destination }} — {{ trip.start_date }} to {{ trip.end_date }}</p>
+        </div>
+
+        <!-- 📝 Edit Trip Button -->
+        <div class="mt-2">
+            <a href="{% url 'trip_edit' trip.pk %}" class="btn btn-primary btn-sm">
+                ✏️ Edit Trip
+            </a>
+        </div>
+    </section>
+
+    {% if journal_entries %}
+        <section class="container my-5">
+            <h2 class="text-center mb-4">📖 Journal Entries</h2>
+            <ul class="list-group">
+                {% for entry in journal_entries %}
+                    <a href="{% url 'journal_entry_detail' entry.pk %}"
+                       class="list-group-item list-group-item-action text-decoration-none text-center">
+                        <div class="fw-bold">{{ entry.title }}</div>
+                        <small class="text-muted d-block">{{ entry.entry_date|date:"F j, Y" }}</small>
+                        <p class="mb-0">{{ entry.content|truncatewords:20 }}</p>
+                    </a>
+                {% endfor %}
+            </ul>
+        </section>
+    {% else %}
+        <p class="text-center fst-italic text-muted my-5">No journal entries yet.</p>
     {% endif %}
 
-    <p class="lead">{{ trip.destination }} — {{ trip.start_date }} to {{ trip.end_date }}</p>
-  </div>
-</section>
-
-<!-- 📖 Journal Entries -->
-<section class="container my-5">
-  <h2 class="text-center mb-4">📖 Journal Entries</h2>
-
-  {% if entries %}
-    <div class="row row-cols-1 row-cols-md-2 g-4">
-      {% for entry in entries %}
-        <div class="col">
-          <div class="card h-100">
-            <div class="card-body">
-              <h5 class="card-title">{{ entry.title }}</h5>
-              <h6 class="card-subtitle mb-2 text-muted">{{ entry.date }}</h6>
-              <p class="card-text">{{ entry.content|truncatewords:25 }}</p>
-              <a href="#" class="btn btn-outline-primary mt-2">Read More</a>
-            </div>
-          </div>
-        </div>
-      {% endfor %}
+    <div class="text-center mt-4">
+        <a href="{% url "journal_entry_create" trip.id %}" class="btn btn-success">+ Add Journal Entry</a>
     </div>
-  {% else %}
-    <p class="text-center">No journal entries yet.</p>
-  {% endif %}
+    </section>
 
-  <div class="text-center mt-4">
-    <a href="#" class="btn btn-primary">+ Add Journal Entry</a>
-  </div>
-</section>
-
-<!-- 🔙 Back to Trips -->
-<section class="text-center py-4 bg-white border-top">
-  <div class="container">
-    <a href="#" class="btn btn-outline-secondary">← Back to Trips</a>
-  </div>
-</section>
+    <!-- 🔙 Back to Trips -->
+    <section class="text-center py-4 bg-white border-top">
+        <div class="container">
+            <a href="{% url 'my_trip_list' %}" class="btn btn-outline-secondary">← Back to Trips</a>
+        </div>
+    </section>
 {% endblock %}
