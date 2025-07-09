@@ -52,7 +52,7 @@ class JournalEntryDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["journal_entry"] = self.object  # Add custom context name
+        context["journal_entry"] = self.object 
         return context
 
 

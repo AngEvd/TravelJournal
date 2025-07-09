@@ -27,7 +27,5 @@ PhotoFormSet = modelformset_factory(
         form=PhotoForm,
         extra=1,
         max_num=10,
-        min_num=1,
-        validate_min=True,
         can_delete=True,
     )

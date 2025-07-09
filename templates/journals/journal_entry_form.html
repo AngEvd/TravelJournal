@@ -14,20 +14,58 @@
             <!-- Photo Upload Formset -->
             <div class="card mb-4">
                 <div class="card-header">Add Photos</div>
-                <div class="card-body">
+                <div class="card-body" id="photo-formset">
                     {{ photo_formset.management_form }}
                     {% for form in photo_formset %}
-                        <div class="mb-3 border-bottom pb-2">
-                            {{ form.image.label_tag }} {{ form.image }}
-                            {{ form.caption.label_tag }} {{ form.caption }}
-                            {{ form.non_field_errors }}
-                        </div>
+                    <div class="mb-3 border-bottom pb-2 photo-form">
+                        {{ form.image.label_tag }} {{ form.image }}
+                        {{ form.caption.label_tag }} {{ form.caption }}
+                        {{ form.non_field_errors }}
+                    </div>
                     {% endfor %}
+                </div>
+                <div class="card-footer text-end">
+                    <button type="button" class="btn btn-outline-primary" id="add-photo-btn">➕ Add another photo</button>
                 </div>
             </div>
 
             <button type="submit" class="btn btn-success">Save Entry</button>
             <a href="#" class="btn btn-secondary">Cancel</a>
+
+            <div class="d-none" id="empty-form-template">
+                <div class="mb-3 border-bottom pb-2 photo-form">
+                    {{ photo_formset.empty_form.image.label_tag }} {{ photo_formset.empty_form.image }}
+                    {{ photo_formset.empty_form.caption.label_tag }} {{ photo_formset.empty_form.caption }}
+                </div>
+            </div>
+
         </form>
     </div>
+
+    <script>
+        const addPhotoBtn = document.getElementById('add-photo-btn');
+        const formsetContainer = document.getElementById('photo-formset');
+        const totalFormsInput = document.getElementById('id_form-TOTAL_FORMS');
+        const emptyFormTemplate = document.getElementById('empty-form-template').innerHTML;
+        const maxForms = 10;
+
+        addPhotoBtn.addEventListener('click', function () {
+            let currentFormCount = parseInt(totalFormsInput.value);
+
+            if (currentFormCount >= maxForms) {
+                alert("Maximum of 10 photos allowed.");
+                return;
+            }
+
+            const newFormHtml = emptyFormTemplate.replace(/__prefix__/g, currentFormCount);
+
+            formsetContainer.insertAdjacentHTML('beforeend', newFormHtml);
+
+            totalFormsInput.value = currentFormCount + 1;
+        });
+    </script>
+      
+      
+    
+
 {% endblock %}

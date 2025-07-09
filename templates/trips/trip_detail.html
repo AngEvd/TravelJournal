@@ -31,11 +31,13 @@
         </div>
 
         <!-- 📝 Edit Trip Button -->
+         {% if request.user == trip.user %}
         <div class="mt-2">
             <a href="{% url 'trip_edit' trip.pk %}" class="btn btn-primary btn-sm">
                 ✏️ Edit Trip
             </a>
         </div>
+        {% endif %}
     </section>
 
     {% if journal_entries %}
@@ -44,7 +46,7 @@
             <ul class="list-group">
                 {% for entry in journal_entries %}
                     <a href="{% url 'journal_entry_detail' entry.pk %}"
-                       class="list-group-item list-group-item-action text-decoration-none text-center">
+                       class="list-group-item list-group-item-action text-decoration-none text-center mb-3">
                         <div class="fw-bold">{{ entry.title }}</div>
                         <small class="text-muted d-block">{{ entry.entry_date|date:"F j, Y" }}</small>
                         <p class="mb-0">{{ entry.content|truncatewords:20 }}</p>
@@ -55,16 +57,22 @@
     {% else %}
         <p class="text-center fst-italic text-muted my-5">No journal entries yet.</p>
     {% endif %}
-
+    
+    {% if request.user == trip.user %}
     <div class="text-center mt-4">
         <a href="{% url "journal_entry_create" trip.id %}" class="btn btn-success">+ Add Journal Entry</a>
     </div>
     </section>
+    {% endif %}
 
     <!-- 🔙 Back to Trips -->
     <section class="text-center py-4 bg-white border-top">
         <div class="container">
+            {% if request.user == trip.user %}
             <a href="{% url 'my_trip_list' %}" class="btn btn-outline-secondary">← Back to Trips</a>
+            {% else %}
+            <a href="{% url 'public_trip_list' %}" class="btn btn-outline-secondary">← Back to Trips</a>
+            {% endif %}
         </div>
     </section>
 {% endblock %}

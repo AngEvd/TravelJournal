@@ -22,7 +22,7 @@ class TripCreateView(LoginRequiredMixin, CreateView):
         return reverse_lazy('trip_detail', kwargs={'pk': self.object.pk})
 
 
-class TripDetailView(LoginRequiredMixin, DetailView):
+class TripDetailView(DetailView):
     model = Trip
     template_name = 'trips/trip_detail.html'
     context_object_name = 'trip'
@@ -53,3 +53,18 @@ class TripEditView(LoginRequiredMixin, UpdateView):
 
     def get_queryset(self):
         return Trip.objects.filter(user=self.request.user)
+    
+
+class PublicTripDetailView(ListView):
+    model = Trip
+    template_name = 'trips/public_trip_list.html'
+    context_object_name = 'public_trips'
+
+    def get_queryset(self):
+        return Trip.objects.filter(is_public=True).order_by('-created_at')
+    
+    def get_object(self, queryset=None):
+        trip = super().get_object(queryset)
+        if trip.is_public or self.request.user.is_authenticated:
+            return trip
+

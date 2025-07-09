@@ -67,14 +67,22 @@ footer {
     display: none !important;
 }
 
-.small-card {
-    max-height: 50px;
-    max-width: 50px;
-    margin: auto;
-}
-
 .card-img-top {
   height: 150px;
   object-fit: cover;
   width: 100%;
+}
+
+.card-body {
+    padding: 0.5rem;
+}
+
+.card-text {
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.list-group-item {
+    border: 1px solid #dee2e6 !important;
+    border-radius: 0.375rem; /* optional: slightly rounded corners */
 }

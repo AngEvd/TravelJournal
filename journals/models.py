@@ -9,7 +9,7 @@ class JournalEntry(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ["-entry_date"]
+        ordering = ["entry_date"]
         verbose_name = "Journal Entry"
         verbose_name_plural = "Journal Entries"
 
