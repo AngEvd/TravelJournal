@@ -25,9 +25,24 @@
                         </div>
                     </div>
                 </div>
-            {% endif %}
+              {% else %}
+                <!-- Default Cover Image -->
+                <img src="{% static 'trip_default_cover.jpg' %}" alt="Default Cover"
+                     class="img-fluid my-4"
+                     style="max-height: 400px; object-fit: cover; width: 100%; border-radius: 8px;">
+            {% endif %}       
 
             <p class="lead">{{ trip.destination }} — {{ trip.start_date }} to {{ trip.end_date }}</p>
+
+            {% if user.is_authenticated %}
+                <button id="like-button" class="btn btn-link p-0 border-0 heart-btn"
+                    data-trip-id="{{ trip.id }}" title="{% if has_liked %}Unlike{% else %}Like{% endif %}">
+                    <i id="like-icon" class="bi {% if has_liked %}bi-heart-fill text-danger{% else %}bi-heart text-secondary{% endif %}"></i>
+                </button>
+                    <span id="like-count" class="ms-1 text-muted">{{ like_count }}</span>
+            {% endif %}
+
+
         </div>
 
         <!-- 📝 Edit Trip Button -->
@@ -60,9 +75,9 @@
     
     {% if request.user == trip.user %}
     <div class="text-center mt-4">
-        <a href="{% url "journal_entry_create" trip.id %}" class="btn btn-success">+ Add Journal Entry</a>
+        <a href="{% url 'journal_entry_create' trip.id %}" class="btn btn-success">+ Add Journal Entry</a>
     </div>
-    </section>
+    
     {% endif %}
 
     <!-- 🔙 Back to Trips -->
@@ -75,4 +90,60 @@
             {% endif %}
         </div>
     </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          // Helper function to get CSRF token from cookies
+          function getCSRFToken() {
+            const cookie = document.cookie
+              .split(';')
+              .find(item => item.trim().startsWith('csrftoken='));
+            return cookie ? cookie.split('=')[1] : '';
+          }
+      
+          const likeBtn = document.getElementById("like-button");
+      
+          if (likeBtn) {
+            likeBtn.addEventListener("click", function (event) {
+              event.preventDefault();  // Prevent page reload or form submit
+      
+              const tripId = likeBtn.dataset.tripId;
+      
+              fetch(`/trips/${tripId}/like/`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "X-CSRFToken": getCSRFToken(),
+                },
+                body: JSON.stringify({}),  // Sending empty JSON payload
+              })
+                .then(response => response.json())
+                .then(data => {
+                  if (data.success) {
+                    const icon = document.getElementById("like-icon");
+                    const count = document.getElementById("like-count");
+      
+                    count.textContent = data.like_count;
+      
+                    if (data.has_liked) {
+                      icon.className = "bi bi-heart-fill text-danger";
+                      likeBtn.title = "Unlike";
+                    } else {
+                      icon.className = "bi bi-heart text-secondary";
+                      likeBtn.title = "Like";
+                    }
+                  } else {
+                    console.error("Failed to toggle like");
+                  }
+                })
+                .catch(error => {
+                  console.error("Error toggling like:", error);
+                });
+            });
+          }
+        });
+      </script>
+      
+    
+        
 {% endblock %}

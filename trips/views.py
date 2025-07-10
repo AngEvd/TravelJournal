@@ -1,12 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.views.generic import CreateView, ListView, UpdateView, DetailView
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import UpdateView
-from django.views.generic.list import ListView
-
 from .forms import TripForm
-from .models import Trip
+from .models import Trip, Like
 
 
 class TripCreateView(LoginRequiredMixin, CreateView):
@@ -30,7 +29,10 @@ class TripDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         trip = self.get_object()
+        user = self.request.user
         context['journal_entries'] = trip.journal_entries.all()
+        context['has_liked'] = (user.is_authenticated and Like.objects.filter(user=user, trip=trip).exists())
+        context['like_count'] = trip.likes.count()
         return context
 
 
@@ -55,16 +57,31 @@ class TripEditView(LoginRequiredMixin, UpdateView):
         return Trip.objects.filter(user=self.request.user)
     
 
-class PublicTripDetailView(ListView):
+class PublicTripListlView(ListView):
     model = Trip
     template_name = 'trips/public_trip_list.html'
     context_object_name = 'public_trips'
 
     def get_queryset(self):
         return Trip.objects.filter(is_public=True).order_by('-created_at')
-    
-    def get_object(self, queryset=None):
-        trip = super().get_object(queryset)
-        if trip.is_public or self.request.user.is_authenticated:
-            return trip
+  
 
+@login_required
+def toggle_like(request, trip_id):
+    if request.method == 'POST':
+        trip = get_object_or_404(Trip, pk=trip_id)
+        like, created = Like.objects.get_or_create(user=request.user, trip=trip)
+
+        if not created:
+            like.delete()
+            has_liked = False
+        else:
+            has_liked = True
+
+        return JsonResponse({
+            'success': True,
+            'has_liked': has_liked,
+            'like_count': trip.likes.count(),
+        })
+
+    return JsonResponse({'success': False}, status=400)
