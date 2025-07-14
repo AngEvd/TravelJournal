@@ -60,9 +60,46 @@
         </div>
     </section>
 
-    <div class="text-center mb-3">
-        <a href="{% url 'journal_entry_update' journal_entry.pk %}" class="btn btn-primary">✏️ Edit</a>
-    </div>
+    {% if is_author %}
+        <div class="mt-2 text-center">
+            <a href="{% url 'journal_entry_update' object.pk %}" class="btn btn-primary btn-sm">✏️ Edit</a>
+            <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#deleteJournalEntryModal">
+                🧽 Delete
+            </button>
+        </div>
+
+        <!-- Delete Confirmation Modal -->
+        <div class="modal fade" id="deleteJournalEntryModal" tabindex="-1"
+             aria-labelledby="deleteJournalEntryModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteJournalEntryModalLabel">Confirm Delete</h5>
+                    </div>
+
+                    <div class="modal-body">
+                        Are you sure you want to delete: <strong>{{ object.title }}</strong>?
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+
+                        <!-- Form submits POST to delete view -->
+                        <form method="post" action="{% url 'journal_entry_delete' object.pk %}"
+                              style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-secondary">Confirm</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
 
     <!-- 🔙 Back to Trip -->
     <section class="text-center py-4 bg-white border-top">

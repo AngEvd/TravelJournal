@@ -4,33 +4,88 @@
 {% load crispy_forms_filters %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>Edit Journal Entry "{{ journal_entry.title }}"</h2>
-    <form method="POST" enctype="multipart/form-data" class="text-start">
-        {% csrf_token %}
-        {{ entry_form|crispy }}
+    <div class="container mt-4">
+        <h2>Update Journal Entry for "{{ trip.title }}"</h2>
 
-        <!-- Photo Upload Formset -->
-        <div class="card mb-4">
-            <div class="card-header">Photos</div>
-            <div class="card-body">
-                {{ photo_formset.management_form }}
-                {% for form in photo_formset %}
-                    <div class="mb-3 border-bottom pb-2">
+        <!-- Display Messages -->
+        {% if messages %}
+            <div class="alert alert-dismissible fade show" role="alert">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
+
+        <form method="POST" class="text-start" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ entry_form|crispy }}
+
+            <!-- Photo Upload Formset -->
+            <div class="card mb-4">
+                <div class="card-header">Manage Photos</div>
+                <div class="card-body" id="photo-formset">
+                    {{ photo_formset.management_form }}
+                    {% for form in photo_formset %}
+                    <div class="mb-3 border-bottom pb-2 photo-form">
+                        {{ form.id }} <!-- Hidden id field -->
                         {{ form.image.label_tag }} {{ form.image }}
                         {{ form.caption.label_tag }} {{ form.caption }}
-                        {{ form.non_field_errors }}
-
-                        {% if form.instance.pk %}
-                            <p class="text-muted small">Already uploaded: <strong>{{ form.instance.image.name }}</strong></p>
-                        {% endif %}
+                        <div class="form-check mt-2">
+                            {{ form.DELETE.label_tag }} {{ form.DELETE }}
+                        </div>
                     </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
+                <div class="card-footer text-end">
+                    <button type="button" class="btn btn-outline-primary" id="add-photo-btn">➕ Add another photo</button>
+                </div>
             </div>
-        </div>
 
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-        <a href="{% url 'journal_entry_detail' journal_entry.pk %}" class="btn btn-secondary ms-2">Cancel</a>
-    </form>
-</div>
+            <button type="submit" class="btn btn-success">Update Entry</button>
+            <a href="{% url 'journal_entry_detail' journal_entry.pk %}" class="btn btn-secondary">Cancel</a>
+
+            <div class="d-none" id="empty-form-template">
+                <div class="mb-3 border-bottom pb-2 photo-form">
+                    {{ photo_formset.empty_form.id }}
+                    {{ photo_formset.empty_form.image.label_tag }} {{ photo_formset.empty_form.image }}
+                    {{ photo_formset.empty_form.caption.label_tag }} {{ photo_formset.empty_form.caption }}
+                    <div class="form-check mt-2">
+                        {{ photo_formset.empty_form.DELETE.label_tag }} {{ photo_formset.empty_form.DELETE }}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const addPhotoBtn = document.getElementById('add-photo-btn');
+        const formsetContainer = document.getElementById('photo-formset');
+        const totalFormsInput = document.getElementById('id_photos-TOTAL_FORMS');
+        const emptyFormTemplate = document.getElementById('empty-form-template').innerHTML;
+        const maxForms = 10;
+
+        addPhotoBtn.addEventListener('click', function () {
+            let currentFormCount = parseInt(totalFormsInput.value);
+            if (currentFormCount >= maxForms) {
+                alert("Maximum of 10 photos allowed.");
+                return;
+            }
+            const newFormHtml = emptyFormTemplate.replace(/__prefix__/g, currentFormCount);
+            formsetContainer.insertAdjacentHTML('beforeend', newFormHtml);
+            totalFormsInput.value = currentFormCount + 1;
+        });
+
+        // Auto-check DELETE for empty forms on submission
+        document.querySelector('form').addEventListener('submit', function (event) {
+            const forms = document.querySelectorAll('.photo-form');
+            forms.forEach(form => {
+                const imageInput = form.querySelector('input[type="file"]');
+                const deleteCheckbox = form.querySelector('input[name$="-DELETE"]');
+                if (imageInput && deleteCheckbox && !imageInput.value) {
+                    deleteCheckbox.checked = true; // Mark empty forms for deletion
+                }
+            });
+        });
+    </script>
 {% endblock %}

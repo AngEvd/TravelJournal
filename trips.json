@@ -1,0 +1,202 @@
+[
+    {
+        "user_id": 1,
+        "title": "Beach Vacation",
+        "destination": "Maui, Hawaii",
+        "start_date": "2025-08-01",
+        "end_date": "2025-08-07",
+        "description": "A relaxing trip to the beach with family. Enjoy the golden sands and crystal-clear waters of Maui’s famous beaches.",
+        "cover_photo": null,
+        "is_public": true
+    },
+    {
+        "user_id": 2,
+        "title": "City Exploration",
+        "destination": "Paris, France",
+        "start_date": "2025-09-10",
+        "end_date": "2025-09-15",
+        "description": "Discover the charm of Paris with visits to iconic landmarks like the Eiffel Tower and Louvre Museum. Savor delicious French cuisine in cozy cafes.",
+        "cover_photo": null,
+        "is_public": true
+    },
+    {
+        "user_id": 3,
+        "title": "Mountain Adventure",
+        "destination": "Banff, Canada",
+        "start_date": "2025-07-20",
+        "end_date": "2025-07-27",
+        "description": "Explore the stunning Rocky Mountains in Banff National Park. Hiking, wildlife spotting, and breathtaking scenery await.",
+        "cover_photo": null,
+        "is_public": true
+    },
+    {
+        "user_id": 4,
+        "title": "Cultural Journey",
+        "destination": "Kyoto, Japan",
+        "start_date": "2025-10-05",
+        "end_date": "2025-10-12",
+        "description": "Immerse yourself in traditional Japanese culture with visits to ancient temples and beautiful gardens in Kyoto. Experience authentic tea ceremonies and local cuisine.",
+        "cover_photo": null,
+        "is_public": true
+    },
+    {
+        "user_id": 5,
+        "title": "Safari Expedition",
+        "destination": "Maasai Mara, Kenya",
+        "start_date": "2025-11-01",
+        "end_date": "2025-11-08",
+        "description": "Witness the incredible wildlife of the Maasai Mara on an unforgettable safari. Spot lions, elephants, and the Great Migration in their natural habitat.",
+        "cover_photo": null,
+        "is_public": true
+    },
+    {
+        "user_id": 6,
+        "title": "Island Escape",
+        "destination": "Santorini, Greece",
+        "start_date": "2025-08-15",
+        "end_date": "2025-08-22",
+        "description": "Relax on the stunning cliffs of Santorini with breathtaking views of the Aegean Sea. Enjoy charming villages, delicious Mediterranean food, and spectacular sunsets.",
+        "cover_photo": null,
+        "is_public": true
+    },
+    {
+        "user_id": 7,
+        "title": "Desert Adventure",
+        "destination": "Dubai, UAE",
+        "start_date": "2025-12-01",
+        "end_date": "2025-12-07",
+        "description": "Experience the luxury and excitement of Dubai. Explore towering skyscrapers, desert safaris, and vibrant markets.",
+        "cover_photo": null,
+        "is_public": true
+    },
+    {
+        "user_id": 8,
+        "title": "Rainforest Retreat",
+        "destination": "Costa Rica",
+        "start_date": "2025-07-10",
+        "end_date": "2025-07-17",
+        "description": "Discover the lush rainforests of Costa Rica with guided tours through exotic wildlife and waterfalls. Perfect for nature lovers and adventure seekers.",
+        "cover_photo": null,
+        "is_public": true
+    },
+    {
+        "user_id": 9,
+        "title": "Historical Tour",
+        "destination": "Rome, Italy",
+        "start_date": "2025-09-01",
+        "end_date": "2025-09-07",
+        "description": "Step back in time exploring ancient ruins like the Colosseum and Roman Forum. Enjoy authentic Italian cuisine and vibrant street life.",
+        "cover_photo": null,
+        "is_public": true
+    },
+    {
+        "user_id": 10,
+        "title": "Northern Lights",
+        "destination": "Reykjavik, Iceland",
+        "start_date": "2025-11-15",
+        "end_date": "2025-11-22",
+        "description": "Chase the magical Northern Lights in Iceland’s capital. Relax in geothermal hot springs and explore dramatic volcanic landscapes.",
+        "cover_photo": null,
+        "is_public": true
+    },
+    {
+        "user_id": 11,
+        "title": "Wine Country",
+        "destination": "Napa Valley, California",
+        "start_date": "2025-10-10",
+        "end_date": "2025-10-15",
+        "description": "Tour world-class vineyards and enjoy wine tastings in Napa Valley. Indulge in gourmet dining amidst beautiful countryside.",
+        "cover_photo": null,
+        "is_public": true
+    },
+    {
+        "user_id": 12,
+        "title": "Tropical Paradise",
+        "destination": "Bora Bora, French Polynesia",
+        "start_date": "2025-08-20",
+        "end_date": "2025-08-27",
+        "description": "Unwind in the crystal-clear lagoons of Bora Bora. Experience overwater bungalows and vibrant coral reefs perfect for snorkeling.",
+        "cover_photo": null,
+        "is_public": true
+    },
+    {
+        "user_id": 13,
+        "title": "Urban Vibes",
+        "destination": "New York City, USA",
+        "start_date": "2025-09-20",
+        "end_date": "2025-09-25",
+        "description": "Explore the bustling streets of NYC with visits to Times Square, Central Park, and Broadway shows. Enjoy diverse food and vibrant nightlife.",
+        "cover_photo": null,
+        "is_public": true
+    },
+    {
+        "user_id": 14,
+        "title": "Ancient Wonders",
+        "destination": "Cairo, Egypt",
+        "start_date": "2025-10-25",
+        "end_date": "2025-11-01",
+        "description": "Marvel at the Pyramids of Giza and the Sphinx. Dive into Egypt’s rich history with museum tours and Nile River cruises.",
+        "cover_photo": null,
+        "is_public": true
+    },
+    {
+        "user_id": 15,
+        "title": "Countryside Escape",
+        "destination": "Tuscany, Italy",
+        "start_date": "2025-09-05",
+        "end_date": "2025-09-12",
+        "description": "Relax in the rolling hills of Tuscany with visits to vineyards, medieval towns, and scenic landscapes. Enjoy authentic Italian cooking classes.",
+        "cover_photo": null,
+        "is_public": true
+    },
+    {
+        "user_id": 16,
+        "title": "Island Adventure",
+        "destination": "Phuket, Thailand",
+        "start_date": "2025-11-10",
+        "end_date": "2025-11-17",
+        "description": "Experience the vibrant beaches and nightlife of Phuket. Explore nearby islands, temples, and indulge in delicious Thai street food.",
+        "cover_photo": null,
+        "is_public": true
+    },
+    {
+        "user_id": 17,
+        "title": "Cultural Immersion",
+        "destination": "Marrakech, Morocco",
+        "start_date": "2025-10-15",
+        "end_date": "2025-10-22",
+        "description": "Wander through colorful souks and historic palaces in Marrakech. Savor traditional Moroccan cuisine and experience desert excursions.",
+        "cover_photo": null,
+        "is_public": true
+    },
+    {
+        "user_id": 18,
+        "title": "Alpine Escape",
+        "destination": "Zermatt, Switzerland",
+        "start_date": "2025-12-05",
+        "end_date": "2025-12-12",
+        "description": "Enjoy skiing and snowboarding in the Swiss Alps near the Matterhorn. Cozy mountain lodges and stunning alpine views await.",
+        "cover_photo": null,
+        "is_public": true
+    },
+    {
+        "user_id": 19,
+        "title": "Coastal Road Trip",
+        "destination": "Amalfi Coast, Italy",
+        "start_date": "2025-09-15",
+        "end_date": "2025-09-22",
+        "description": "Drive along the breathtaking Amalfi Coast with stops in picturesque towns like Positano and Ravello. Enjoy fresh seafood and Mediterranean charm.",
+        "cover_photo": null,
+        "is_public": true
+    },
+    {
+        "user_id": 20,
+        "title": "Wildlife Safari",
+        "destination": "Kruger National Park, South Africa",
+        "start_date": "2025-11-20",
+        "end_date": "2025-11-27",
+        "description": "Embark on a thrilling safari in Kruger National Park. Spot the Big Five and experience Africa’s incredible biodiversity up close.",
+        "cover_photo": null,
+        "is_public": true
+    }
+]

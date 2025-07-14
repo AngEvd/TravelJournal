@@ -1,0 +1,142 @@
+[
+  {
+    "username": "alice_wonder",
+    "email": "alice.wonder@example.com",
+    "password": "passAlice2025",
+    "location": "US",
+    "phone_number": "+14155552671"
+  },
+  {
+    "username": "benjamin_smith",
+    "email": "ben.smith@example.co.uk",
+    "password": "benSecure!45",
+    "location": "GB",
+    "phone_number": "+447911123456"
+  },
+  {
+    "username": "charlotte_lee",
+    "email": "charlotte.lee@example.ca",
+    "password": "charLee789",
+    "location": "CA",
+    "phone_number": "+14165559876"
+  },
+  {
+    "username": "daniel_kim",
+    "email": "daniel.kim@example.fr",
+    "password": "danKimPass12",
+    "location": "FR",
+    "phone_number": "+33612345678"
+  },
+  {
+    "username": "emily_jones",
+    "email": "emily.jones@example.com",
+    "password": "emJones2025",
+    "location": "US",
+    "phone_number": "+12025550123"
+  },
+  {
+    "username": "frank_otto",
+    "email": "frank.otto@example.de",
+    "password": "frankPass99",
+    "location": "DE",
+    "phone_number": "+4915123456789"
+  },
+  {
+    "username": "grace_hall",
+    "email": "grace.hall@example.au",
+    "password": "graceHall7",
+    "location": "AU",
+    "phone_number": "+61412345678"
+  },
+  {
+    "username": "henry_wu",
+    "email": "henry.wu@example.cn",
+    "password": "henWu2025",
+    "location": "CN",
+    "phone_number": "+8613800138000"
+  },
+  {
+    "username": "isabella_martin",
+    "email": "isabella.martin@example.it",
+    "password": "isaMart!23",
+    "location": "IT",
+    "phone_number": "+393491234567"
+  },
+  {
+    "username": "jackson_brown",
+    "email": "jackson.brown@example.nz",
+    "password": "jackBrown56",
+    "location": "NZ",
+    "phone_number": "+64211234567"
+  },
+  {
+    "username": "karen_nguyen",
+    "email": "karen.nguyen@example.vn",
+    "password": "karenNguyen1",
+    "location": "VN",
+    "phone_number": "+84901234567"
+  },
+  {
+    "username": "liam_murphy",
+    "email": "liam.murphy@example.ie",
+    "password": "liamMurph7",
+    "location": "IE",
+    "phone_number": "+353871234567"
+  },
+  {
+    "username": "mia_garcia",
+    "email": "mia.garcia@example.es",
+    "password": "miaGarcia88",
+    "location": "ES",
+    "phone_number": "+34699123456"
+  },
+  {
+    "username": "noah_clark",
+    "email": "noah.clark@example.us",
+    "password": "noahClark2025",
+    "location": "US",
+    "phone_number": "+13105550123"
+  },
+  {
+    "username": "olivia_evans",
+    "email": "olivia.evans@example.co.uk",
+    "password": "oliviaEvans9",
+    "location": "GB",
+    "phone_number": "+447700900123"
+  },
+  {
+    "username": "peter_sanchez",
+    "email": "peter.sanchez@example.mx",
+    "password": "peterSanch3z",
+    "location": "MX",
+    "phone_number": "+5215512345678"
+  },
+  {
+    "username": "quinn_lee",
+    "email": "quinn.lee@example.sg",
+    "password": "quinnLee2025",
+    "location": "SG",
+    "phone_number": "+6591234567"
+  },
+  {
+    "username": "rachel_king",
+    "email": "rachel.king@example.za",
+    "password": "rachelKing1",
+    "location": "ZA",
+    "phone_number": "+27821234567"
+  },
+  {
+    "username": "samuel_turner",
+    "email": "samuel.turner@example.au",
+    "password": "samTurner88",
+    "location": "AU",
+    "phone_number": "+61412398765"
+  },
+  {
+    "username": "tina_wright",
+    "email": "tina.wright@example.nl",
+    "password": "tinaWright7",
+    "location": "NL",
+    "phone_number": "+31612345678"
+  }
+]

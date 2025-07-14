@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.views.generic import CreateView, ListView, UpdateView, DetailView
+from django.views.generic import CreateView, ListView, UpdateView, DetailView, DeleteView
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from .forms import TripForm
@@ -55,9 +55,14 @@ class TripEditView(LoginRequiredMixin, UpdateView):
 
     def get_queryset(self):
         return Trip.objects.filter(user=self.request.user)
-    
 
-class PublicTripListlView(ListView):
+
+class TripDeleteView(LoginRequiredMixin, DeleteView):
+    model = Trip
+    success_url = reverse_lazy('my_trip_list')
+
+
+class PublicTripListView(ListView):
     model = Trip
     template_name = 'trips/public_trip_list.html'
     context_object_name = 'public_trips'
