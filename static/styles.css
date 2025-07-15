@@ -75,6 +75,7 @@ footer {
 
 .card-body {
     padding: 0.5rem;
+    display: flex;
 }
 
 .card-text {

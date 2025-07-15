@@ -1,0 +1,42 @@
+{% load static %}
+
+<!-- 📸 Featured Trips -->
+<section id="featured-trips" class="container my-5">
+    <h2 class="text-center mb-4">📸 Featured Trips</h2>
+    <div class="row row-cols-1 row-cols-md-4 g-4" id="featured-trips-container">
+        <!-- Trips will be inserted here by JavaScript -->
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('/api/trips/featured-trips/')
+            .then(response => response.json())
+            .then(trips => {
+                const container = document.getElementById('featured-trips-container');
+                trips.forEach(trip => {
+                    const card = document.createElement("div");
+                    card.className = "col d-flex justify-content-center";
+                    card.innerHTML = `
+                    <div class="card h-100">
+                        ${trip.cover_photo ? `<img src="${trip.cover_photo}" class="card-img-top" alt="${trip.title}">` : ""}
+                        <div class="card-body">
+                            <h5 class="card-title text-center">${trip.title}</h5>
+                            <p class="card-text">${trip.destination}</p>
+                            <p class="card-text">
+                                <strong>Start:</strong> ${trip.start_date} |
+                                <strong>End:</strong> ${trip.end_date}
+                            </p>
+                            <p class="card-text text-truncate-multiline text-justify">${trip.description}</p>
+                            <div class="card-footer text-center">
+                                <a href="/trips/${trip.id}/" class="btn btn-primary">View Trip</a>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                    container.appendChild(card);
+                });
+            })
+
+    });
+</script>

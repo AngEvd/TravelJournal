@@ -27,6 +27,7 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('trips/', include('trips.urls')),
     path('journals/', include('journals.urls')),
+    path('api/', include('trips.api_urls')),
 ]
 
 if settings.DEBUG:
