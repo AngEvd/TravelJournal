@@ -9,34 +9,44 @@
 </section>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        fetch('/api/trips/featured-trips/')
-            .then(response => response.json())
-            .then(trips => {
-                const container = document.getElementById('featured-trips-container');
-                trips.forEach(trip => {
-                    const card = document.createElement("div");
-                    card.className = "col d-flex justify-content-center";
-                    card.innerHTML = `
-                    <div class="card h-100">
-                        ${trip.cover_photo ? `<img src="${trip.cover_photo}" class="card-img-top" alt="${trip.title}">` : ""}
-                        <div class="card-body">
-                            <h5 class="card-title text-center">${trip.title}</h5>
-                            <p class="card-text">${trip.destination}</p>
-                            <p class="card-text">
-                                <strong>Start:</strong> ${trip.start_date} |
-                                <strong>End:</strong> ${trip.end_date}
-                            </p>
-                            <p class="card-text text-truncate-multiline text-justify">${trip.description}</p>
-                            <div class="card-footer text-center">
-                                <a href="/trips/${trip.id}/" class="btn btn-primary">View Trip</a>
-                            </div>
-                        </div>
-                    </div>
-                    `;
-                    container.appendChild(card);
-                });
-            })
+    document.addEventListener('DOMContentLoaded', function () {
+        const container = document.getElementById('featured-trips-container');
+        const cached = sessionStorage.getItem('featuredTrips');
 
+        function renderTrips(trips) {
+            trips.forEach(trip => {
+                const card = document.createElement("div");
+                card.className = "col d-flex justify-content-center";
+                card.innerHTML = `
+                <div class="card h-100 d-flex flex-column">
+                    ${trip.cover_photo ? `<img src="${trip.cover_photo}" class="card-img-top" alt="${trip.title}">` : ""}
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-center">${trip.title}</h5>
+                        <p class="card-text">${trip.destination}</p>
+                        {#<p class="card-text">#}
+                        {#    <strong>Start:</strong> ${trip.start_date} |#}
+                        {#    <strong>End:</strong> ${trip.end_date}#}
+                        {#</p>#}
+                        <p class="card-text text-truncate-multiline">${trip.description}</p>
+                    </div>
+                    <div class="card-footer text-center mt-auto">
+                        <a href="/trips/${trip.id}/" class="btn btn-primary">View Trip</a>
+                    </div>
+                </div>
+            `;
+                container.appendChild(card);
+            });
+        }
+
+        if (cached) {
+            renderTrips(JSON.parse(cached));
+        } else {
+            fetch('/api/trips/featured-trips/')
+                .then(response => response.json())
+                .then(trips => {
+                    sessionStorage.setItem('featuredTrips', JSON.stringify(trips));
+                    renderTrips(trips);
+                });
+        }
     });
 </script>

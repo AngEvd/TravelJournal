@@ -40,8 +40,10 @@
                     <i id="like-icon"
                        class="bi {% if has_liked %}bi-heart-fill text-danger{% else %}bi-heart text-secondary{% endif %}"></i>
                 </button>
-                <span id="like-count" class="ms-1 text-muted">{{ like_count }}</span>
+            {% else %}
+                <i class="bi bi-heart text-secondary"></i>
             {% endif %}
+            <span id="like-count" class="ms-1 text-muted">{{ like_count }}</span>
 
 
         </div>

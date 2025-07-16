@@ -1,8 +1,9 @@
+import random
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import generics
 from .models import Trip
 from .serializers import TripSerializer
-import random
 
 
 class FeaturedTripsAPIView(APIView):
@@ -11,3 +12,8 @@ class FeaturedTripsAPIView(APIView):
         random.shuffle(trips)
         serializer = TripSerializer(trips[:4], many=True)
         return Response(serializer.data)
+
+
+class PublicTripsAPIView(generics.ListAPIView):
+    serializer_class = TripSerializer
+    queryset = Trip.objects.filter(is_public=True)
