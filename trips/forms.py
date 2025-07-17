@@ -21,3 +21,7 @@ class TripForm(forms.ModelForm):
                 raise forms.ValidationError("Start date cannot be after end date.")
 
         return cleaned_data
+    
+    def clean_title(self):
+        title = self.cleaned_data.get('title', '')
+        return title.title()
