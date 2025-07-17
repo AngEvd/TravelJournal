@@ -27,7 +27,7 @@
                         {#    <strong>Start:</strong> ${trip.start_date} |#}
                         {#    <strong>End:</strong> ${trip.end_date}#}
                         {#</p>#}
-                        <p class="card-text text-truncate-multiline">${trip.description}</p>
+                        <p class="card-text text-truncate-single-line">${trip.description}</p>
                     </div>
                     <div class="card-footer text-center mt-auto">
                         <a href="/trips/${trip.id}/" class="btn btn-primary">View Trip</a>
@@ -36,6 +36,7 @@
             `;
                 container.appendChild(card);
             });
+
         }
 
         if (cached) {

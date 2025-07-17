@@ -1,0 +1,96 @@
+{% load static %}
+
+<!-- 🌍 Public Trips -->
+<section id="public-trips" class="container my-5">
+  <h2 class="text-center mb-4">🌍 Explore Public Adventures</h2>
+  <div class="row row-cols-1 row-cols-md-4 g-4" id="public-trips-container"></div>
+  <div id="loading-message" class="text-center my-3" style="display:none;">Loading more trips...</div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const container = document.getElementById('public-trips-container');
+  const loadingMessage = document.getElementById('loading-message');
+  let nextPageUrl = '/api/trips/public-trips/';
+  let isLoading = false;
+
+  function renderTrips(trips) {
+    trips.forEach(trip => {
+      const card = document.createElement("div");
+      card.className = "col d-flex justify-content-center";
+      card.innerHTML = `
+        <div class="card h-100 d-flex flex-column">
+          ${trip.cover_photo ? `<img src="${trip.cover_photo}" class="card-img-top" alt="${trip.title}">` : ""}
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title text-center">${trip.title}</h5>
+            <p class="card-text">${trip.destination}</p>
+            <p class="card-text text-truncate-multiline">${trip.description}</p>
+          </div>
+          <div class="card-footer text-center mt-auto">
+            <a href="/trips/${trip.id}/" class="btn btn-outline-primary">View Trip</a>
+          </div>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+
+    document.querySelectorAll('.text-truncate-multiline').forEach(el => {
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', () => {
+        el.classList.toggle('text-expanded');
+      });
+    });
+  }
+
+  function loadTrips(callback) {
+    if (!nextPageUrl || isLoading) return;
+
+    isLoading = true;
+    loadingMessage.style.display = 'block';
+
+    fetch(nextPageUrl)
+      .then(response => response.json())
+      .then(data => {
+        const trips = data.results || data;
+        renderTrips(trips);
+        nextPageUrl = data.next;
+        isLoading = false;
+        loadingMessage.style.display = 'none';
+        if (callback) callback();
+      })
+      .catch(err => {
+        console.error('Error loading trips:', err);
+        isLoading = false;
+        loadingMessage.style.display = 'none';
+      });
+  }
+
+  function loadUntilScrollable() {
+    if (window.innerHeight >= document.body.scrollHeight && nextPageUrl) {
+      loadTrips(() => {
+        // Delay slightly before checking again
+        setTimeout(loadUntilScrollable, 300);
+      });
+    }
+  }
+
+  // Load first batch and then check if more is needed
+  loadTrips(() => {
+    setTimeout(loadUntilScrollable, 10);
+  });
+
+
+  // Scroll-based loading
+  window.addEventListener('scroll', () => {
+    if (isLoading || !nextPageUrl) return;
+    const scrollPosition = window.innerHeight + window.scrollY;
+    const threshold = document.body.offsetHeight - 300;
+    if (scrollPosition >= threshold) {
+      loadTrips();
+    }
+  });
+});
+
+</script>
+
+

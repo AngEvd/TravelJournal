@@ -16,4 +16,4 @@ class FeaturedTripsAPIView(APIView):
 
 class PublicTripsAPIView(generics.ListAPIView):
     serializer_class = TripSerializer
-    queryset = Trip.objects.filter(is_public=True)
+    queryset = Trip.objects.filter(is_public=True).order_by('-created_at')
