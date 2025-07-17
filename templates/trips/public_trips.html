@@ -2,28 +2,75 @@
 
 <!-- 🌍 Public Trips -->
 <section id="public-trips" class="container my-5">
+  <!-- Centered heading -->
   <h2 class="text-center mb-4">🌍 Explore Public Adventures</h2>
+
+  <!-- Centered input form, no button -->
+  <form 
+    class="d-flex justify-content-center mb-4 mx-auto"
+    role="search"
+    onsubmit="event.preventDefault();"
+    style="max-width: 280px;"
+  >
+    <input
+      id="search-input"
+      class="form-control"
+      type="search"
+      placeholder="Search trips..."
+      aria-label="Search trips"
+    />
+  </form>
+
+
+
+  <!-- Trips container -->
   <div class="row row-cols-1 row-cols-md-4 g-4" id="public-trips-container"></div>
-  <div id="loading-message" class="text-center my-3" style="display:none;">Loading more trips...</div>
+
+  <!-- No results message -->
+  <div id="no-results-message" class="text-center my-5" style="display:none;">
+    <h5 class="text-muted">No trips found</h5>
+    <p class="text-muted">Try adjusting your search terms</p>
+  </div>
+
+  <div id="loading-message" class="text-center my-3" style="display:none;">
+    Loading more trips...
+  </div>
 </section>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const container = document.getElementById('public-trips-container');
   const loadingMessage = document.getElementById('loading-message');
+  const searchInput = document.getElementById('search-input');
+
+  const noResultsMessage = document.getElementById('no-results-message');
+  
   let nextPageUrl = '/api/trips/public-trips/';
   let isLoading = false;
+  let searchTimeout;
+  let currentSearchTerm = '';
+  let isSearchMode = false;
 
-  function renderTrips(trips) {
+  function renderTrips(trips, append = false) {
+    // Clear container unless we're appending
+    if (!append) {
+      container.innerHTML = '';
+    }
+
     trips.forEach(trip => {
       const card = document.createElement("div");
-      card.className = "col d-flex justify-content-center";
+      card.className = "col d-flex justify-content-center trip-card";
+      card.dataset.tripId = trip.id;
       card.innerHTML = `
         <div class="card h-100 d-flex flex-column">
           ${trip.cover_photo ? `<img src="${trip.cover_photo}" class="card-img-top" alt="${trip.title}">` : ""}
           <div class="card-body d-flex flex-column">
             <h5 class="card-title text-center">${trip.title}</h5>
             <p class="card-text">${trip.destination}</p>
+            <p class="card-text">
+              <strong>Start:</strong> ${trip.start_date} |
+              <strong>End:</strong> ${trip.end_date}
+            </p>
             <p class="card-text text-truncate-multiline">${trip.description}</p>
           </div>
           <div class="card-footer text-center mt-auto">
@@ -34,6 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
       container.appendChild(card);
     });
 
+    // Add click handlers for expandable text
     document.querySelectorAll('.text-truncate-multiline').forEach(el => {
       el.style.cursor = 'pointer';
       el.addEventListener('click', () => {
@@ -42,20 +90,31 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  function loadTrips(callback) {
-    if (!nextPageUrl || isLoading) return;
+  function loadTrips(url = null, callback = null) {
+    const loadUrl = url || nextPageUrl;
+    if (!loadUrl || isLoading) return;
 
     isLoading = true;
     loadingMessage.style.display = 'block';
 
-    fetch(nextPageUrl)
+    fetch(loadUrl)
       .then(response => response.json())
       .then(data => {
         const trips = data.results || data;
-        renderTrips(trips);
-        nextPageUrl = data.next;
+        
+        // For search results, don't append - replace
+        // For normal pagination, append
+        const shouldAppend = !isSearchMode && url === null;
+        renderTrips(trips, shouldAppend);
+        
+        // Update nextPageUrl only if not in search mode
+        if (!isSearchMode) {
+          nextPageUrl = data.next;
+        }
+        
         isLoading = false;
         loadingMessage.style.display = 'none';
+        
         if (callback) callback();
       })
       .catch(err => {
@@ -65,24 +124,64 @@ document.addEventListener('DOMContentLoaded', function () {
       });
   }
 
+  function performSearch(searchTerm) {
+    if (searchTerm === '') {
+      // Exit search mode - load normal trips
+      isSearchMode = false;
+      currentSearchTerm = '';
+      nextPageUrl = '/api/trips/public-trips/';
+      searchResultsInfo.style.display = 'none';
+      noResultsMessage.style.display = 'none';
+      loadTrips();
+      return;
+    }
+
+    // Enter search mode
+    isSearchMode = true;
+    currentSearchTerm = searchTerm;
+    
+    // Build search URL - adjust this endpoint to match your API
+    const searchUrl = `/api/trips/public-trips/?search=${encodeURIComponent(searchTerm)}`;
+    
+    loadTrips(searchUrl, () => {
+      // Show/hide no results message
+      const hasResults = container.children.length > 0;
+      noResultsMessage.style.display = hasResults ? 'none' : 'block';
+    });
+  }
+
+
+
   function loadUntilScrollable() {
-    if (window.innerHeight >= document.body.scrollHeight && nextPageUrl) {
-      loadTrips(() => {
+    if (window.innerHeight >= document.body.scrollHeight && nextPageUrl && !isSearchMode) {
+      loadTrips(null, () => {
         // Delay slightly before checking again
         setTimeout(loadUntilScrollable, 300);
       });
     }
   }
 
+  // Setup search functionality with debouncing
+  searchInput.addEventListener('input', (e) => {
+    const searchTerm = e.target.value.trim();
+    
+    // Clear previous timeout
+    clearTimeout(searchTimeout);
+    
+    // Debounce search to avoid too many API calls
+    searchTimeout = setTimeout(() => {
+      performSearch(searchTerm);
+    }, 300);
+  });
+
   // Load first batch and then check if more is needed
-  loadTrips(() => {
+  loadTrips(null, () => {
     setTimeout(loadUntilScrollable, 10);
   });
 
-
-  // Scroll-based loading
+  // Scroll-based loading (only when not searching)
   window.addEventListener('scroll', () => {
-    if (isLoading || !nextPageUrl) return;
+    if (isLoading || !nextPageUrl || isSearchMode) return;
     const scrollPosition = window.innerHeight + window.scrollY;
     const threshold = document.body.offsetHeight - 300;
     if (scrollPosition >= threshold) {
@@ -90,7 +189,4 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 });
-
 </script>
-
-
