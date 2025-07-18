@@ -126,13 +126,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function performSearch(searchTerm) {
     if (searchTerm === '') {
-      // Exit search mode - load normal trips
       isSearchMode = false;
       currentSearchTerm = '';
       nextPageUrl = '/api/trips/public-trips/';
-      searchResultsInfo.style.display = 'none';
       noResultsMessage.style.display = 'none';
-      loadTrips();
+      container.innerHTML= '';
+
+      loadTrips(null, () => {
+        setTimeout(loadUntilScrollable, 10);
+      });
       return;
     }
 
