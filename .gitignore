@@ -40,6 +40,6 @@ create_trips.py
 create_users.py
 
 # Ignore JSON data files with user and trip data (local/test data)
-user.json
+users.json
 trips.json
 journal_entries.json
