@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Virtual environment
+.venv/
+
+# Django specific
+*.log
+db.sqlite3
+
+# Environment variables
+.env
+.env.*
+
+# Migrations – keep __init__.py but ignore the rest
+**/migrations/*
+!**/migrations/__init__.py
+
+# Media and static files
+media/
+staticfiles/
+# Optional: if your static/ folder is only used for collectstatic output
+# static/
+
+# IDE/editor junk
+.vscode/
+.idea/
+.DS_Store
+
+# OS and misc
+Thumbs.db
+
+# Ignore local data creation scripts (not needed in repo)
+create_journal_entries.py
+create_trips.py
+create_users.py
+
+# Ignore JSON data files with user and trip data (local/test data)
+user.json
+trips.json
+journal_entries.json
