@@ -1,4 +1,7 @@
 {% load static %}
+<script>
+  const defaultCover = "{% static 'trip_default_cover.jpg' %}";
+</script>
 
 <!-- 🌍 Public Trips -->
 <section id="public-trips" class="container my-5">
@@ -63,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
       card.dataset.tripId = trip.id;
       card.innerHTML = `
         <div class="card h-100 d-flex flex-column">
-          ${trip.cover_photo ? `<img src="${trip.cover_photo}" class="card-img-top" alt="${trip.title}">` : ""}
+          <img src="${trip.cover_photo || defaultCover}" class="card-img-top" alt="${trip.title}">
           <div class="card-body d-flex flex-column">
             <h5 class="card-title text-center">${trip.title}</h5>
             <p class="card-text">${trip.destination}</p>
